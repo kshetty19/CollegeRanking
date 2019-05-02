@@ -7,6 +7,7 @@
 In our first and second peeks, we are interested in **geographical locations** of universities and colleges. It is surprising to learn that students, when choosing schools, give much weight to a school's geographical location. We investigate two variables that contribute to prospective students' choice, giving side-by-side plots that reflect how the variables vary between universities and liberal arts colleges.
 
 ```{r}
+
 REGION_collapse <- fct_collapse(as.character(full_LiberalArts$REGION), NewEngland = "1", MidEast = "2", GreatLakes = "3", Plains = "4", Southeast = "5", Southwest = "6", RockyMountains = "7", FarWest = "8")
 
 full_LiberalArts$REGION_collapse <- REGION_collapse
@@ -63,7 +64,7 @@ g4 <- ggplot(full_LiberalArts, aes(x = LOCALE_collapse_lac1, fill = LOCALE_colla
   geom_bar() +
   xlab("Geographical Location") + scale_fill_discrete(name = "Breakdown") + ylab("Count") +
   ggtitle("Location of Liberal Arts Colleges, broken down by size") +
-  theme(plot.title = element_text(size = 9.5))  +
+  theme(plot.title = element_text(size = 8))  +
   theme(axis.text.x = element_text(angle = 30))
   
 grid.arrange(g3, g4, nrow = 1)

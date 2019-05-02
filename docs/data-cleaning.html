@@ -183,7 +183,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="7.4" data-path="bayesian-models-part-1-2-liberal-arts-colleges.html"><a href="bayesian-models-part-1-2-liberal-arts-colleges.html#future-steps-1"><i class="fa fa-check"></i><b>7.4</b> Future steps</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="bayesian-models-part-2.html"><a href="bayesian-models-part-2.html"><i class="fa fa-check"></i><b>8</b> Bayesian Models Part 2</a></li>
+<li class="chapter" data-level="8" data-path="bayes-model-part-2.html"><a href="bayes-model-part-2.html"><i class="fa fa-check"></i><b>8</b> Bayes Model Part 2</a><ul>
+<li class="chapter" data-level="8.1" data-path="bayes-model-part-2.html"><a href="bayes-model-part-2.html#possible-data-cleaning-unexpected"><i class="fa fa-check"></i><b>8.1</b> Possible data cleaning (Unexpected)</a></li>
+<li class="chapter" data-level="8.2" data-path="bayes-model-part-2.html"><a href="bayes-model-part-2.html#on-the-way-to-final-model"><i class="fa fa-check"></i><b>8.2</b> On the way to Final Model</a></li>
+<li class="chapter" data-level="8.3" data-path="bayes-model-part-2.html"><a href="bayes-model-part-2.html#what-are-we-thinking"><i class="fa fa-check"></i><b>8.3</b> What are we thinking?</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="becoming-a-proud-bayesian.html"><a href="becoming-a-proud-bayesian.html"><i class="fa fa-check"></i><b>9</b> Becoming a proud Bayesian</a><ul>
+<li class="chapter" data-level="9.1" data-path="becoming-a-proud-bayesian.html"><a href="becoming-a-proud-bayesian.html#university-model"><i class="fa fa-check"></i><b>9.1</b> University Model</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="becoming-a-proud-bayesian.html"><a href="becoming-a-proud-bayesian.html#get-some-intuition"><i class="fa fa-check"></i><b>9.1.1</b> Get some intuition</a></li>
+<li class="chapter" data-level="9.1.2" data-path="becoming-a-proud-bayesian.html"><a href="becoming-a-proud-bayesian.html#some-additional-intuition"><i class="fa fa-check"></i><b>9.1.2</b> Some additional intuition</a></li>
+<li class="chapter" data-level="9.1.3" data-path="becoming-a-proud-bayesian.html"><a href="becoming-a-proud-bayesian.html#even-more-intuition"><i class="fa fa-check"></i><b>9.1.3</b> Even more intuition</a></li>
+<li class="chapter" data-level="9.1.4" data-path="becoming-a-proud-bayesian.html"><a href="becoming-a-proud-bayesian.html#building-the-model-5"><i class="fa fa-check"></i><b>9.1.4</b> Building the model</a></li>
+<li class="chapter" data-level="9.1.5" data-path="becoming-a-proud-bayesian.html"><a href="becoming-a-proud-bayesian.html#model-summary-5"><i class="fa fa-check"></i><b>9.1.5</b> Model summary</a></li>
+<li class="chapter" data-level="9.1.6" data-path="becoming-a-proud-bayesian.html"><a href="becoming-a-proud-bayesian.html#posterior-inference-5"><i class="fa fa-check"></i><b>9.1.6</b> Posterior inference</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="becoming-a-proud-bayesian.html"><a href="becoming-a-proud-bayesian.html#liberal-arts-colleges"><i class="fa fa-check"></i><b>9.2</b> Liberal Arts Colleges</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="becoming-a-proud-bayesian.html"><a href="becoming-a-proud-bayesian.html#get-some-intuition-1"><i class="fa fa-check"></i><b>9.2.1</b> Get some intuition</a></li>
+<li class="chapter" data-level="9.2.2" data-path="becoming-a-proud-bayesian.html"><a href="becoming-a-proud-bayesian.html#building-the-model-6"><i class="fa fa-check"></i><b>9.2.2</b> Building the model</a></li>
+<li class="chapter" data-level="9.2.3" data-path="becoming-a-proud-bayesian.html"><a href="becoming-a-proud-bayesian.html#model-summary-6"><i class="fa fa-check"></i><b>9.2.3</b> Model summary</a></li>
+<li class="chapter" data-level="9.2.4" data-path="becoming-a-proud-bayesian.html"><a href="becoming-a-proud-bayesian.html#posterior-inference-6"><i class="fa fa-check"></i><b>9.2.4</b> Posterior inference</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="becoming-a-proud-bayesian.html"><a href="becoming-a-proud-bayesian.html#comparison"><i class="fa fa-check"></i><b>9.3</b> Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="a-little-shiny.html"><a href="a-little-shiny.html"><i class="fa fa-check"></i><b>10</b> A Little Shiny</a><ul>
+<li class="chapter" data-level="10.1" data-path="a-little-shiny.html"><a href="a-little-shiny.html#shiny-app"><i class="fa fa-check"></i><b>10.1</b> Shiny App</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="keep-shining.html"><a href="keep-shining.html"><i class="fa fa-check"></i><b>11</b> Keep Shining</a></li>
 </ul>
 
       </nav>
@@ -385,6 +410,50 @@ check_<span class="dv">2</span>_Data1516 &lt;-<span class="st"> </span>myData151
 
 <span class="kw">dim</span>(fullUniversity)</code></pre>
 <pre><code>## [1] 120  30</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">fullUniversity</code></pre>
+<pre><code>## # A tibble: 120 x 30
+##    UniversityName State Y2019 Y2018 Y2017 Y2016 Y2015 Y2014 Y2013 Y2012
+##    &lt;chr&gt;          &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 Princeton Uni… NJ        1     1     1     1     1     1     1     1
+##  2 Harvard Unive… MA        2     2     2     2     2     2     1     1
+##  3 Yale Universi… CT        3     3     3     3     3     3     3     3
+##  4 University of… IL        3     3     3     4     4     5     4     5
+##  5 Columbia Univ… NY        3     5     5     4     4     4     4     4
+##  6 Massachusetts… MA        3     5     7     7     7     7     6     5
+##  7 Stanford Univ… CA        7     5     5     4     4     5     6     5
+##  8 University of… PA        8     8     8     9     8     7     8     5
+##  9 Duke Universi… NC        8     9     8     8     8     7     8    10
+## 10 Johns Hopkins… MD       10    11    10    10    12    12    13    13
+## # … with 110 more rows, and 20 more variables: UGDS_1415 &lt;dbl&gt;,
+## #   ADM_RATE_1415 &lt;dbl&gt;, ACTCMMID_1415 &lt;dbl&gt;, SAT_AVG_1415 &lt;dbl&gt;,
+## #   UGDS_WHITE_1415 &lt;dbl&gt;, COSTT4_A_1415 &lt;dbl&gt;, UGDS_1516 &lt;dbl&gt;,
+## #   ADM_RATE_1516 &lt;dbl&gt;, ACTCMMID_1516 &lt;dbl&gt;, SAT_AVG_1516 &lt;dbl&gt;,
+## #   UGDS_WHITE_1516 &lt;dbl&gt;, COSTT4_A_1516 &lt;dbl&gt;, REGION &lt;int&gt;,
+## #   LOCALE &lt;fct&gt;, UGDS_1617 &lt;dbl&gt;, ADM_RATE_1617 &lt;dbl&gt;,
+## #   ACTCMMID_1617 &lt;dbl&gt;, SAT_AVG_1617 &lt;dbl&gt;, UGDS_WHITE_1617 &lt;dbl&gt;,
+## #   COSTT4_A_1617 &lt;dbl&gt;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">full_LiberalArts</code></pre>
+<pre><code>## # A tibble: 149 x 30
+##    CollegeName State Y2019 Y2018 Y2017 Y2016 Y2015 Y2014 Y2013 Y2012
+##    &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 Williams C… MA    1     1     1         1     1 1     1     1    
+##  2 Amherst Co… MA    2     2     2         2     2 2     2     2    
+##  3 Swarthmore… PA    3     3     4         3     3 3     3     3    
+##  4 Wellesley … MA    3     3     3         4     4 7     6     8    
+##  5 Bowdoin Co… ME    5     3     6         4     5 4     6     6    
+##  6 Pomona Col… CA    5     6     7         4     5 4     4     4    
+##  7 Middlebury… VT    5     6     4         4     7 4     4     5    
+##  8 Carleton C… MN    5     8     7         8     8 7     8     6    
+##  9 Claremont … CA    9     8     9         9     8 9     10    9    
+## 10 Davidson C… NC    10    10    9         9    11 9     12    11   
+## # … with 139 more rows, and 20 more variables: UGDS_1415 &lt;dbl&gt;,
+## #   ADM_RATE_1415 &lt;dbl&gt;, ACTCMMID_1415 &lt;dbl&gt;, SAT_AVG_1415 &lt;dbl&gt;,
+## #   UGDS_WHITE_1415 &lt;dbl&gt;, COSTT4_A_1415 &lt;dbl&gt;, UGDS_1516 &lt;dbl&gt;,
+## #   ADM_RATE_1516 &lt;dbl&gt;, ACTCMMID_1516 &lt;dbl&gt;, SAT_AVG_1516 &lt;dbl&gt;,
+## #   UGDS_WHITE_1516 &lt;dbl&gt;, COSTT4_A_1516 &lt;dbl&gt;, REGION &lt;int&gt;,
+## #   LOCALE &lt;fct&gt;, UGDS_1617 &lt;dbl&gt;, ADM_RATE_1617 &lt;dbl&gt;,
+## #   ACTCMMID_1617 &lt;dbl&gt;, SAT_AVG_1617 &lt;dbl&gt;, UGDS_WHITE_1617 &lt;dbl&gt;,
+## #   COSTT4_A_1617 &lt;dbl&gt;</code></pre>
 
 </div>
 </div>

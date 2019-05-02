@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Motivation | 454 Bayesian Statistics Project - College Ranking</title>
-  <meta name="description" content="Chapter 2 Motivation | 454 Bayesian Statistics Project - College Ranking" />
+  <title>Chapter 10 A Little Shiny | 454 Bayesian Statistics Project - College Ranking</title>
+  <meta name="description" content="Chapter 10 A Little Shiny | 454 Bayesian Statistics Project - College Ranking" />
   <meta name="generator" content="bookdown  and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Motivation | 454 Bayesian Statistics Project - College Ranking" />
+  <meta property="og:title" content="Chapter 10 A Little Shiny | 454 Bayesian Statistics Project - College Ranking" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="kshetty19/CollegeRanking" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Motivation | 454 Bayesian Statistics Project - College Ranking" />
+  <meta name="twitter:title" content="Chapter 10 A Little Shiny | 454 Bayesian Statistics Project - College Ranking" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html">
-<link rel="next" href="data-source.html">
+<link rel="prev" href="becoming-a-proud-bayesian.html">
+<link rel="next" href="keep-shining.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -226,15 +226,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="motivation" class="section level1">
-<h1><span class="header-section-number">Chapter 2</span> Motivation</h1>
-<div id="why-this" class="section level2">
-<h2><span class="header-section-number">2.1</span> Why this?</h2>
-<p>Why have Princeton and Williams topped the US News and World Report ranking charts for so long? What factors are considered when we create college rankings? Though reductionary, college rankings are often what parents and prospective students consider in some way when approaching their college search process. Rankings do not often change a great deal and there are many aspects that play into how a ranking is constructed based on what the compiler deems important. In our report, we aim to investigate how these rankings are constructed and eventually provide a specialized tool for students to tailor a college’s “rank” to their own set of criteria.</p>
-</div>
-<div id="a-snapshot" class="section level2">
-<h2><span class="header-section-number">2.2</span> A snapshot</h2>
-<p>In our project, we aim to look at the factors that play into college rankings and use our findings to create a specialized ranking tool for students. Factors like region, setting, size, admissions rate, diversity, and standardized testing scores play into the score a given school will receive.</p>
+<div id="a-little-shiny" class="section level1">
+<h1><span class="header-section-number">Chapter 10</span> A Little Shiny</h1>
+<p>Like we promised, students will be able to input their personal information and get a list of colleges and universities ranked top according to our <strong>fitness index</strong> system.</p>
+<p>(In that way, Zuofu could pretend that there’s such person <strong>Zafo</strong> with a 1580 SAT and want to go to a big school in the city.)</p>
+<div id="shiny-app" class="section level2">
+<h2><span class="header-section-number">10.1</span> Shiny App</h2>
+<p>We are still working on it!</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#build the server</span>
+server4 &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {
+  
+  
+  
+}
+
+
+<span class="co">#build the user interface</span>
+ui4 &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(
+  <span class="kw">headerPanel</span>(<span class="st">&quot;Choose your inputs&quot;</span>),
+    <span class="kw">sidebarLayout</span>(
+        <span class="kw">sidebarPanel</span>(
+          <span class="kw">selectInput</span>(<span class="st">&quot;schoolsize&quot;</span>,<span class="dt">label =</span> <span class="st">&quot;School Size:&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">&quot;0-1000&quot;</span>,<span class="st">&quot;1000-1800&quot;</span>,<span class="st">&quot;1800-2500&quot;</span>,<span class="st">&quot;2500+&quot;</span>), <span class="dt">multiple =</span> <span class="ot">TRUE</span>),
+          <span class="kw">numericInput</span>(<span class="st">&quot;sat&quot;</span>, <span class="dt">label =</span> <span class="st">&quot;Input your SAT score:&quot;</span>, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1600</span>, <span class="dt">step =</span> <span class="ot">NA</span>),
+          <span class="kw">selectInput</span>(<span class="st">&quot;region&quot;</span>, <span class="dt">label =</span> <span class="st">&quot;Select off regions:&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">&quot;NewEngland&quot;</span>,<span class="st">&quot;MidEast&quot;</span>,<span class="st">&quot;GreatLakes&quot;</span>,<span class="st">&quot;Plains&quot;</span>,<span class="st">&quot;Southeast&quot;</span>,<span class="st">&quot;Southwest&quot;</span>,<span class="st">&quot;RockyMountains&quot;</span>,<span class="st">&quot;FarWest&quot;</span>,<span class="st">&quot;NA&quot;</span>), <span class="dt">multiple =</span> <span class="ot">TRUE</span>),
+          <span class="kw">selectInput</span>(<span class="st">&quot;location&quot;</span>, <span class="dt">label =</span> <span class="st">&quot;Geographical Location:&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">&quot;City&quot;</span>,<span class="st">&quot;Suburb&quot;</span>,<span class="st">&quot;Town&quot;</span>,<span class="st">&quot;Rural&quot;</span>)),
+          <span class="kw">numericInput</span>(<span class="st">&quot;cost&quot;</span>, <span class="dt">label =</span> <span class="st">&quot;Input your ideal cost/yr:&quot;</span>, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">100000</span>, <span class="dt">step =</span> <span class="ot">NA</span>),
+          <span class="kw">numericInput</span>(<span class="st">&quot;diversity&quot;</span>, <span class="dt">label =</span> <span class="st">&quot;Input your ideal school racial diversity:&quot;</span>, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>, <span class="dt">step =</span> <span class="fl">0.01</span>)
+        ),
+        <span class="kw">mainPanel</span>(
+          <span class="kw">h4</span>(<span class="st">&quot;fitnessIndex&quot;</span>),
+          <span class="kw">tableOutput</span>(<span class="st">&quot;output_table&quot;</span>),
+          <span class="kw">h4</span>(<span class="st">&quot;List of Schools&quot;</span>),
+          <span class="kw">tableOutput</span>(<span class="st">&quot;output_table2&quot;</span>)
+        )
+    )
+)
+
+<span class="kw">shinyApp</span>(<span class="dt">ui =</span> ui4, <span class="dt">server =</span> server4)</code></pre>
 
 </div>
 </div>
@@ -243,8 +271,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="data-source.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="becoming-a-proud-bayesian.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="keep-shining.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

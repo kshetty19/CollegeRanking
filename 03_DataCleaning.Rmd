@@ -190,4 +190,6 @@ fullUniversity <- newUniversity %>%
   full_join(myData1617_sub_characterUniversity, by = c("UniversityName" = "INSTNM"))
 
 dim(fullUniversity)
+fullUniversity
+full_LiberalArts
 ```
