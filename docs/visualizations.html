@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 10 A Little Shiny | MATH 454 Bayesian Statistics - College Ranking</title>
-  <meta name="description" content="Chapter 10 A Little Shiny | MATH 454 Bayesian Statistics - College Ranking" />
+  <title>Chapter 5 Visualizations | MATH 454 Bayesian Statistics - College Ranking</title>
+  <meta name="description" content="Chapter 5 Visualizations | MATH 454 Bayesian Statistics - College Ranking" />
   <meta name="generator" content="bookdown  and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 10 A Little Shiny | MATH 454 Bayesian Statistics - College Ranking" />
+  <meta property="og:title" content="Chapter 5 Visualizations | MATH 454 Bayesian Statistics - College Ranking" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="kshetty19/CollegeRanking" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 10 A Little Shiny | MATH 454 Bayesian Statistics - College Ranking" />
+  <meta name="twitter:title" content="Chapter 5 Visualizations | MATH 454 Bayesian Statistics - College Ranking" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="part-2-becoming-a-proud-bayesian.html">
-
+<link rel="prev" href="data-cleaning.html">
+<link rel="next" href="bayesian-models-part-1-1-universities.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -230,79 +230,68 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="a-little-shiny" class="section level1">
-<h1><span class="header-section-number">Chapter 10</span> A Little Shiny</h1>
-<p><strong>HINT: At some point during your project, everything suddenly goes really complicated.</strong></p>
-<p>Websites like US News &amp; World Report have a set of criteria with which they use to create their lists, but we ask the following: who’s to say that their criteria matches yours?</p>
-<p>To accurately represent the school selection process, we found it more appropriate to create a new concept called <strong>Fitness Index</strong> that measures the level of fitness between a student and their school options.</p>
-<p>(In that way, Zuofu could pretend that there’s such person <strong>Zafo</strong> with a 1580 SAT who wants to go to a big school in the city.)</p>
-<div id="user-input" class="section level2">
-<h2><span class="header-section-number">10.1</span> User Input</h2>
-<p>We created a Shiny App for students interested in finding colleges. After inputing predictive variables, the system will provide a list of liberal arts colleges and universities curated for the student.</p>
-<table>
-<colgroup>
-<col width="24%" />
-<col width="40%" />
-<col width="35%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>User Input in the Shiny App</th>
-<th>Description</th>
-<th>How users input</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Size of school (UGDS)</td>
-<td>number of undergraduate degree-seeking students</td>
-<td>Users can select a range between 0 and 4000 (Liberal Arts Colleges) and 0 and 60000 (Universities)</td>
-</tr>
-<tr class="even">
-<td>SAT Scores (SAT_AVG)</td>
-<td>combined SAT average by year, interchangeable with SAT</td>
-<td>Users can input their own SAT score. Our system will compare it with average SAT scores of each college and calculate students’ compatibility. (ACT score will be automatically transformed.)</td>
-</tr>
-<tr class="odd">
-<td>A college’s region (REGION)</td>
-<td>geographic region (e.g. Minnesota is in the Plains region)</td>
-<td>This is a multi-check box. Users can filter away regions where they don’t want to attend college.</td>
-</tr>
-<tr class="even">
-<td>Setting (LOCALE)</td>
-<td>setting (large city, small town, etc.)</td>
-<td>This is a low weight variable where students can state their setting preference for college. Colleges that fit their description will be considered more <strong>compatible</strong> with students; schools will not be eliminated solely by this factor.</td>
-</tr>
-<tr class="odd">
-<td>Average Cost Per Year (COSTT4_A)</td>
-<td>average cost of attendance per year</td>
-<td>Users can use a slidebar to set their preferred full tuition range (excludes financial aid, scholarships etc.)</td>
-</tr>
-<tr class="even">
-<td>Racial diversity (UGDS_WHITE)</td>
-<td>racial diversity by the percentage of white students</td>
-<td>Users can select a preferred percentage. Schools with an incompatible percentage (&gt;15% net difference) will be punished by the algorithm; schools will only be eliminated solely by this factor if net difference &gt; 35%.</td>
-</tr>
-</tbody>
-</table>
+<div id="visualizations" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Visualizations</h1>
+<p><strong>Intuitively, what’s going on?</strong></p>
+<div id="st-2nd-peeks" class="section level2">
+<h2><span class="header-section-number">5.1</span> 1st &amp; 2nd Peeks</h2>
+<p>In our first and second peeks, we are interested in <strong>geographical locations</strong> of universities and colleges. It might be surprising to learn that students, when choosing schools, give quite a bit of weight to a school’s geographical location. We investigate two variables that contribute to prospective students’ choices, giving side-by-side plots that reflect how the variables vary between universities and liberal arts colleges.</p>
+<p><strong>Variable Collapses</strong></p>
+<p>We collapsed and renamed the “REGION” variable based on the College Scorecard Data Dictionary. Excluded are “0” which represents the US Service Schools and “9” which represents the Outlying Areas, since none of the schools on our list fall in either category. We also ensured that the REGION variable was being treated as a character instead of an integer.</p>
+<pre class="sourceCode r"><code class="sourceCode r">REGION_collapse &lt;-<span class="st"> </span><span class="kw">fct_collapse</span>(<span class="kw">as.character</span>(full_LiberalArts<span class="op">$</span>REGION), <span class="dt">NewEngland =</span> <span class="st">&quot;1&quot;</span>, <span class="dt">MidEast =</span> <span class="st">&quot;2&quot;</span>, <span class="dt">GreatLakes =</span> <span class="st">&quot;3&quot;</span>, <span class="dt">Plains =</span> <span class="st">&quot;4&quot;</span>, <span class="dt">Southeast =</span> <span class="st">&quot;5&quot;</span>, <span class="dt">Southwest =</span> <span class="st">&quot;6&quot;</span>, <span class="dt">RockyMountains =</span> <span class="st">&quot;7&quot;</span>, <span class="dt">FarWest =</span> <span class="st">&quot;8&quot;</span>)
+
+full_LiberalArts<span class="op">$</span>REGION_collapse &lt;-<span class="st"> </span>REGION_collapse</code></pre>
+<p>We did a similar process for the LOCALE variable. We collapsed and renamed the variable based on the College Scorecard Data Dictionary. We first collapsed LOCALE into the more general setting groups a user would recognize (city, town, suburb, and rural). We also preserved the original designations in order to look at distributions within the larger categories.</p>
+<pre class="sourceCode r"><code class="sourceCode r">LOCALE_collapse_lac1 &lt;-<span class="st"> </span><span class="kw">fct_collapse</span>(full_LiberalArts<span class="op">$</span>LOCALE, <span class="dt">City =</span> <span class="kw">c</span>(<span class="st">&quot;11&quot;</span>,<span class="st">&quot;12&quot;</span>,<span class="st">&quot;13&quot;</span>), <span class="dt">Suburb =</span> <span class="kw">c</span>(<span class="st">&quot;21&quot;</span>,<span class="st">&quot;22&quot;</span>,<span class="st">&quot;23&quot;</span>), <span class="dt">Town =</span> <span class="kw">c</span>(<span class="st">&quot;31&quot;</span>,<span class="st">&quot;32&quot;</span>,<span class="st">&quot;33&quot;</span>), <span class="dt">Rural =</span> <span class="kw">c</span>(<span class="st">&quot;41&quot;</span>,<span class="st">&quot;42&quot;</span>,<span class="st">&quot;43&quot;</span>))
+
+LOCALE_collapse_lac2 &lt;-<span class="st"> </span><span class="kw">fct_collapse</span>(full_LiberalArts<span class="op">$</span>LOCALE, <span class="dt">LargeCity =</span> <span class="st">&quot;11&quot;</span>, <span class="dt">MidsizeCity =</span> <span class="st">&quot;12&quot;</span>, <span class="dt">SmallCity =</span> <span class="st">&quot;13&quot;</span>, <span class="dt">LargeSuburb =</span> <span class="st">&quot;21&quot;</span>, <span class="dt">MidsizeSuburb =</span> <span class="st">&quot;22&quot;</span>, <span class="dt">SmallSuburb =</span> <span class="st">&quot;23&quot;</span>, <span class="dt">FringeTown =</span> <span class="st">&quot;31&quot;</span>, <span class="dt">DistantTown =</span> <span class="st">&quot;32&quot;</span>, <span class="dt">RemoteTown =</span> <span class="st">&quot;33&quot;</span>, <span class="dt">FringeRural =</span> <span class="st">&quot;41&quot;</span>, <span class="dt">DistantRural =</span> <span class="st">&quot;42&quot;</span>, <span class="dt">RemoteTown =</span> <span class="st">&quot;43&quot;</span>)
+
+full_LiberalArts<span class="op">$</span>LOCALE_collapse_lac1 &lt;-<span class="st"> </span>LOCALE_collapse_lac1
+full_LiberalArts<span class="op">$</span>LOCALE_collapse_lac2 &lt;-<span class="st"> </span>LOCALE_collapse_lac2</code></pre>
+<p><strong>The process described above was repeated on the University dataset.</strong></p>
+<pre class="sourceCode r"><code class="sourceCode r">REGION_collapse &lt;-<span class="st"> </span><span class="kw">fct_collapse</span>(<span class="kw">as.character</span>(fullUniversity<span class="op">$</span>REGION), <span class="dt">NewEngland =</span> <span class="st">&quot;1&quot;</span>, <span class="dt">MidEast =</span> <span class="st">&quot;2&quot;</span>, <span class="dt">GreatLakes =</span> <span class="st">&quot;3&quot;</span>, <span class="dt">Plains =</span> <span class="st">&quot;4&quot;</span>, <span class="dt">Southeast =</span> <span class="st">&quot;5&quot;</span>, <span class="dt">Southwest =</span> <span class="st">&quot;6&quot;</span>, <span class="dt">RockyMountains =</span> <span class="st">&quot;7&quot;</span>, <span class="dt">FarWest =</span> <span class="st">&quot;8&quot;</span>)
+
+fullUniversity<span class="op">$</span>REGION_collapse &lt;-<span class="st"> </span>REGION_collapse</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">LOCALE_collapse &lt;-<span class="st"> </span><span class="kw">fct_collapse</span>(fullUniversity<span class="op">$</span>LOCALE, <span class="dt">City =</span> <span class="kw">c</span>(<span class="st">&quot;11&quot;</span>,<span class="st">&quot;12&quot;</span>,<span class="st">&quot;13&quot;</span>), <span class="dt">Suburb =</span> <span class="kw">c</span>(<span class="st">&quot;21&quot;</span>,<span class="st">&quot;22&quot;</span>,<span class="st">&quot;23&quot;</span>), <span class="dt">Town =</span> <span class="kw">c</span>(<span class="st">&quot;31&quot;</span>,<span class="st">&quot;32&quot;</span>,<span class="st">&quot;33&quot;</span>), <span class="dt">Rural =</span> <span class="kw">c</span>(<span class="st">&quot;41&quot;</span>,<span class="st">&quot;42&quot;</span>,<span class="st">&quot;43&quot;</span>))
+
+LOCALE_collapse2 &lt;-<span class="st"> </span><span class="kw">fct_collapse</span>(fullUniversity<span class="op">$</span>LOCALE, <span class="dt">LargeCity =</span> <span class="st">&quot;11&quot;</span>, <span class="dt">MidsizeCity =</span> <span class="st">&quot;12&quot;</span>, <span class="dt">SmallCity =</span> <span class="st">&quot;13&quot;</span>, <span class="dt">LargeSuburb =</span> <span class="st">&quot;21&quot;</span>, <span class="dt">MidsizeSuburb =</span> <span class="st">&quot;22&quot;</span>, <span class="dt">SmallSuburb =</span> <span class="st">&quot;23&quot;</span>, <span class="dt">FringeTown =</span> <span class="st">&quot;31&quot;</span>, <span class="dt">DistantTown =</span> <span class="st">&quot;32&quot;</span>, <span class="dt">RemoteTown =</span> <span class="st">&quot;33&quot;</span>, <span class="dt">FringeRural =</span> <span class="st">&quot;41&quot;</span>, <span class="dt">DistantRural =</span> <span class="st">&quot;42&quot;</span>, <span class="dt">RemoteTown =</span> <span class="st">&quot;43&quot;</span>)
+
+fullUniversity<span class="op">$</span>LOCALE_collapse &lt;-<span class="st"> </span>LOCALE_collapse
+fullUniversity<span class="op">$</span>LOCALE_collapse2 &lt;-<span class="st"> </span>LOCALE_collapse2</code></pre>
+<div id="visualization-1-region-setting" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> Visualization 1: Region &amp; Setting</h3>
+<p><img src="CollegeRanking_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>Aside from the fact that liberal arts colleges tend to have a little more variation in their setting (LOCALE) breakdown with the extra “rural” designation, we find that for universities, in all regions, a majority of the schools are in “city” locations. The largest proportion of schools are in the MidEast, then the Southeast, and then the Great Lakes region. For liberal arts colleges, there is a more even split regionally, with the MidEast and Southeast still having the most, but the GreatLakes, NewEngland, Plan, and FarWest not far behind. There are a lot of city schools (about half) in the Southeast, but otherwise, there seems to be either even splits or more schools that are in towns and suburbs.</p>
+</div>
+<div id="visualization-2-general-locale-breakdown" class="section level3">
+<h3><span class="header-section-number">5.1.2</span> Visualization 2: General Locale &amp; Breakdown</h3>
+<p><img src="CollegeRanking_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>This next plot is looking at the distribution among and within the locale categories. We see again that a majority (almost 4 times) as many universities are in a cities as there are in suburbs and very few universities are located in towns. Of the cities, about half are in large cities, with about a quarter each in midsize and small cities. Of the suburbs, most are in large suburbs. As we saw before, liberal arts colleges are a little more geographically diverse, with roughly the same proportion of schools divides among the city, suburb, and town designations. Unlike universities, most liberal arts colleges located in cities are in smaller cities, large suburbs, and distant towns.</p>
+<p> </p>
 <p> </p>
 </div>
-<div id="possible-data-cleaning" class="section level2">
-<h2><span class="header-section-number">10.2</span> Possible Data Cleaning?</h2>
-<p>We found out that more schools than we estimated had NAs in their SAT score section (they do not provide standardized test scores). We subsequently found that NAs exist throughout our dataset.</p>
-<p>Since our final goal is to create an interactive tool for students to evaluate their compatibility with colleges, we decided to <em>leave these NAs alone</em> until the final phase (which is NOW). We re-weighed variables when building our fitness index algorithm. The weight of NA variables will be set to <span class="math inline">\(0\)</span> by an if statement, and other variables will have a higher weight proportionally in correspondence.</p>
 </div>
-<div id="shiny-app" class="section level2">
-<h2><span class="header-section-number">10.3</span> Shiny App</h2>
-<p>Considering the difficulty of embedding a Shiny App in the bookdown, we instead include links of our Shiny App that you could play around. Check out which colleges fit you the most!</p>
-<p>For liberal arts colleges you are interested in:</p>
-<p><a href="https://zuofuhuang.shinyapps.io/collegeranking/" class="uri">https://zuofuhuang.shinyapps.io/collegeranking/</a></p>
-<p>For universities you are interested in:</p>
-<p><a href="https://zuofuhuang.shinyapps.io/UniversityRanking/" class="uri">https://zuofuhuang.shinyapps.io/UniversityRanking/</a></p>
+<div id="rd-peek" class="section level2">
+<h2><span class="header-section-number">5.2</span> 3rd Peek</h2>
+<p>“In a utilitarian age, of all other times, it is a matter of grave importance that fairy tales should be respected.” -Charles Dickens</p>
+<p> </p>
+<p>Here’s when people tend to (have the excuse to) get a little more utilitarian. Studies find that people pay more attention to ranking when ranking data is available. We (or more precisely, Zuofu) are just like that.</p>
+<p>SAT is usually one of the major indicators of students’ fitness with certain colleges, both from students’ and colleges’ perspective. We do a bi-variate visualization between average SAT score of 2016-2017 academic year and university ranking of Year 2018. If you look further in our project (which hopefully you do!), you will see this is the basis of our first introductory model.</p>
+<p><img src="CollegeRanking_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>In this plot, we investigate the correlation between standardized test scores (SAT) and college ranking. From the literature and past knowledge, we believe that test scores are one of the factors that can be a marker of quality for ranking compilers. In this case, we do see a generally negative correlation between average SAT score and ranking. As SAT scores go up, rankings get smaller (better). The university scores are a bit more clustered, while there is a larger spread between the liberal arts college scores. This might be an indication of the weight put on standardized test scores for larger universities and the more holistic approach liberal arts colleges have.
+ </p>
 </div>
-<div id="in-case-youre-curious" class="section level2">
-<h2><span class="header-section-number">10.4</span> In case you’re curious…</h2>
-<p>If you are curious about the code (which is somewhat complicated), here it is! Email Zuofu (<a href="mailto:zhuang@macalester.edu" class="email">zhuang@macalester.edu</a>) for more details.</p>
+<div id="th-peek" class="section level2">
+<h2><span class="header-section-number">5.3</span> 4th Peek</h2>
+<p>“Diversity: the art of thinking independently together.” -Malcolm Forbes</p>
+<p> </p>
+<p>In an effort to create a more just and inclusive world, the opportunity to engage with people of different backgrounds and identities plays an increasingly important role. We plan to look into the common trend between the size of the student body and diversity factors (namely, the percentage of white students and the cost of attending college).</p>
+<pre class="sourceCode r"><code class="sourceCode r">fullUniversity<span class="op">$</span>UGDS_WHITE_<span class="dv">1617</span>_categ =<span class="st"> </span><span class="kw">cut</span>(fullUniversity<span class="op">$</span>UGDS_WHITE_<span class="dv">1617</span>, <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.2</span>,<span class="fl">0.4</span>,<span class="fl">0.6</span>,<span class="fl">0.8</span>,<span class="dv">1</span>))</code></pre>
+<p><img src="CollegeRanking_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>We didn’t see an observable relationship between cost and the percentage of white students; we did observe that universities of a smaller size tend to correlate with a much larger cost.</p>
+<pre class="sourceCode r"><code class="sourceCode r">full_LiberalArts<span class="op">$</span>UGDS_WHITE_<span class="dv">1617</span>_categ =<span class="st"> </span><span class="kw">cut</span>(full_LiberalArts<span class="op">$</span>UGDS_WHITE_<span class="dv">1617</span>, <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.2</span>,<span class="fl">0.4</span>,<span class="fl">0.6</span>,<span class="fl">0.8</span>,<span class="dv">1</span>))</code></pre>
+<p><img src="CollegeRanking_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>In terms of liberal arts colleges, we can see that the data points (schools) are more clustered at the top section of the plot. This makes sense to us given that most liberal arts colleges are private compared to universities. We didn’t see an observable relationship between cost and the percentage of white students.</p>
 
 </div>
 </div>
@@ -311,8 +300,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="part-2-becoming-a-proud-bayesian.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="data-cleaning.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bayesian-models-part-1-1-universities.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

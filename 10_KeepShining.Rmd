@@ -1,1 +1,15 @@
-# Keep Shining
+# Keep Shining: Technical Report
+Zuofu Huang & Kavya Shetty
+
+  Why have Princeton and Williams topped the US News and World Report ranking charts for so long? What factors are considered when we create college rankings? Though reductionary, college rankings are often what parents and prospective students consider in some way when approaching their college search process. Name recognition can really go a long way. Rankings do not often change a great deal and there are many aspects that play into how a ranking is constructed based on what the compiler deems important. Because of this, when the US News and World Report changed its ranking methodology multiple times in the 90s, "during that period, a school's ranking could move up or down from one year to the next without any accompanying change in objective quality measures." However, literature has also shown "a correlation between rankings and application decisions, but do not distinguish changes in rank from changes in school quality" (Luca & Smith 59).
+    
+  In our project, we aim to look at those factors that play into college rankings and use our findings to create a specialized ranking tool for students. Factors like region, setting, size, admissions rate, diversity, and standardized testing scores play into the score a given school will receive.
+  
+  
+
+  
+In our project, we aim to look at the factors that play into college rankings and use our findings to create a specialized ranking tool for students. Factors like region, setting, size, admissions rate, diversity, and standardized testing scores play into the score a given school will receive.
+
+  
+  Our dataset was collected from College Scorecard, which is a tool from the College Affordability and Transparency Center. The data is held on data.gov from the Department of Education and maintained by Brian Fu. The last update was September 29, 2017 and our years of interest include 2014-2017. This dataset includes all the aforementioned variables and provides a profile for each school. In order to cross-reference these with ranking data, we scraped data from Andre G. Reiter’s U.S. News & World Report Historical Liberal Arts College and University Rankings datasets, which he compiled from both print and digital records. There were some data missing and we filled that with information compiled on the website Public University Honors. The dataset was called “Average U.S. News Rankings for 123 Universities: 2012-2019” and was posted September 18, 2016 and was most recently updated on September 10, 2018 to include the 2019 rankings.
+

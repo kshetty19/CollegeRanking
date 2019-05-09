@@ -18,40 +18,46 @@ Our dataset was collected from College Scorecard, which is a tool from the Colle
 
 &nbsp;
 
-## Our data dictionary
+## Our data dictionary (Variables of Interest)
 
 Variable Name                     | Description
 ----------------------------------| -------------
-Institution Name (INSTNM)         | name of college/university
-Region (REGION)                   | region-wise (e.g. Minnesota is in the Plains region)
-Setting (LOCALE)                  | setting (large city, small town, etc.)
-Size of School (UGDS)             | number of undergraduate degree-seeking students
-Admission Rate (ADM_RATE)         | college's admission rate
-SAT Scores (SAT_AVG)              | combined SAT average by year, interchangeable with ACT
-Racial Diversity (UGDS_WHITE)     | racial diversity by percent of white students
-Average Cost Per Year (COSTT4_A)  | average cost of attendance per year
+Institution Name (INSTNM)         | name of college/university, renamed "CollegeName" and "UniversityName" in final cleaned and merged datasets
+Region (REGION)                   | geographic region (e.g. Minnesota is in the Plains region), collapsed for some visualizations and models
+Setting (LOCALE)                  | setting (large city, small town, etc.), collapsed for some visualizations and models
+Size of School (UGDS)             | number of undergraduate degree-seeking students, eventually separated by year
+Admission Rate (ADM_RATE)         | college's admission rate (percent), eventually separated by year
+SAT Scores (SAT_AVG)              | combined SAT average by year, interchangeable with ACT, eventually separated by year
+Racial Diversity (UGDS_WHITE)     | racial diversity by percent of white students (percent), eventually separated by year
+Average Cost Per Year (COSTT4_A)  | average cost of attendance per year (ticket price in USD, not including scholarships), eventually separated by year
+Ranking (Y)                       | A school's ranking as determined by the US News & World Report, eventually separated by year
+
+
 
 &nbsp;
 
 ## Changes to datasets
 
-To ensure the consistency among datasets, we made a few necessary changes to the original datasets.
+To ensure the consistency among datasets, we made a few necessary changes to the original datasets. The originals are available at the links above and our versions are available for use upon request. Contact Zuofu Huang (zhuang@macalester.edu).
+
+To see the step-by-step data cleaning process that followed, check out the **Data Cleaning** tab.
+
 &nbsp;
 
 For University ranking datasets:
 
-1. We collected and manually added rankings of 60 universities between 2012 and 2019.
+1. We collected and manually added rankings of 60 universities between 2012 and 2019 using information from "Public University Honors."
 &nbsp;
 
 For Liberal Arts College ranking datasets:
 
 1. To avoid repetition, we changed Westminster College in Pennsylvania to "Westminster College-PA"; changed Wheaton College in Massachusetts to "Wheaton College-MA".
 
-2. We deleted US Military Academy, US Air Force Academy, US Naval Academy because the infomration is not disclosed to the public and thus not available for viewing.
+2. We deleted US Military Academy, US Air Force Academy, US Naval Academy because the information is not disclosed to the public and thus not available for viewing.
 
-3. We deleted Grove City College and Principia College because their information were not available in the mega datasets.
+3. We deleted Grove City College and Principia College because their information was not available in the mega datasets.
 
-4. We made slight changes on a few colleges, such as "St. Norbert College" to "Saint Norbert College" in order to match with the name in mega datasets.
+4. We made slight changes to a few colleges, such as "St. Norbert College" to "Saint Norbert College" in order to match with the name in mega datasets.
 &nbsp;
 
 For Mega datasets:

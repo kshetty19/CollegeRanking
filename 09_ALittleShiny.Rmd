@@ -1,43 +1,50 @@
 # A Little Shiny
 
-Like we promised, students will be able to input their personal information and get a list of colleges and universities ranked top according to our **fitness index** system.
 
-(In that way, Zuofu could pretend that there's such person **Zafo** with a 1580 SAT and want to go to a big school in the city.)
+**HINT: At some point during your project, everything suddenly goes really complicated.**
+
+Websites like US News & World Report have a set of criteria with which they use to create their lists, but we ask the following: who's to say that their criteria matches yours?  
+
+To accurately represent the school selection process, we found it more appropriate to create a new concept called **Fitness Index** that measures the level of fitness between a student and their school options.
+
+(In that way, Zuofu could pretend that there's such person **Zafo** with a 1580 SAT who wants to go to a big school in the city.)
+
+## User Input
+
+We created a Shiny App for students interested in finding colleges. After inputing predictive variables, the system will provide a list of liberal arts colleges and universities curated for the student.
+
+
+User Input in the Shiny App       | Description                                             | How users input
+----------------------------------| --------------------------------------------------------|--------------------------------------------------
+Size of school (UGDS)             | number of undergraduate degree-seeking students         | Users can select a range between 0 and 4000 (Liberal Arts Colleges) and 0 and 60000 (Universities)
+SAT Scores (SAT_AVG)              | combined SAT average by year, interchangeable with SAT  | Users can input their own SAT score. Our system will compare it with average SAT scores of each college and calculate students' compatibility. (ACT score will be automatically transformed.)
+A college's region (REGION)       | geographic region (e.g. Minnesota is in the Plains region)    | This is a multi-check box. Users can filter away regions where they don't want to attend college.
+Setting (LOCALE)                  | setting (large city, small town, etc.)                  | This is a low weight variable where students can state their setting preference for college. Colleges that fit their description will be considered more **compatible** with students; schools will not be eliminated solely by this factor.
+Average Cost Per Year (COSTT4_A)  | average cost of attendance per year                     | Users can use a slidebar to set their preferred full tuition range (excludes financial aid, scholarships etc.)
+Racial diversity (UGDS_WHITE)     | racial diversity by the percentage of white students    | Users can select a preferred percentage. Schools with an incompatible percentage (>15% net difference) will be punished by the algorithm; schools will only be eliminated solely by this factor if net difference > 35%.
+
+&nbsp;
+
+
+## Possible Data Cleaning?
+
+We found out that more schools than we estimated had NAs in their SAT score section (they do not provide standardized test scores). We subsequently found that NAs exist throughout our dataset. 
+
+Since our final goal is to create an interactive tool for students to evaluate their compatibility with colleges, we decided to *leave these NAs alone* until the final phase (which is NOW).  We re-weighed variables when building our fitness index algorithm. The weight of NA variables will be set to $0$ by an if statement, and other variables will have a higher weight proportionally in correspondence.
 
 ## Shiny App
 
-We are still working on it! 
+Considering the difficulty of embedding a Shiny App in the bookdown, we instead include links of our Shiny App that you could play around. Check out which colleges fit you the most!
 
-```{R eval = FALSE}
-#build the server
-server4 <- function(input, output, session) {
-  
-  
-  
-}
+For liberal arts colleges you are interested in:
 
+https://zuofuhuang.shinyapps.io/collegeranking/
 
-#build the user interface
-ui4 <- fluidPage(
-  headerPanel("Choose your inputs"),
-    sidebarLayout(
-        sidebarPanel(
-          selectInput("schoolsize",label = "School Size:", choices = c("0-1000","1000-1800","1800-2500","2500+"), multiple = TRUE),
-          numericInput("sat", label = "Input your SAT score:", min = 0, max = 1600, step = NA),
-          selectInput("region", label = "Select off regions:", choices = c("NewEngland","MidEast","GreatLakes","Plains","Southeast","Southwest","RockyMountains","FarWest","NA"), multiple = TRUE),
-          selectInput("location", label = "Geographical Location:", choices = c("City","Suburb","Town","Rural")),
-          numericInput("cost", label = "Input your ideal cost/yr:", min = 0, max = 100000, step = NA),
-          numericInput("diversity", label = "Input your ideal school racial diversity:", min = 0, max = 1, step = 0.01)
-        ),
-        mainPanel(
-          h4("fitnessIndex"),
-          tableOutput("output_table"),
-          h4("List of Schools"),
-          tableOutput("output_table2")
-        )
-    )
-)
+For universities you are interested in:
 
-shinyApp(ui = ui4, server = server4)
+https://zuofuhuang.shinyapps.io/UniversityRanking/
 
-```
+## In case you’re curious...
+
+If you are curious about the code (which is somewhat complicated), here it is! Email Zuofu (zhuang@macalester.edu) for more details.
+

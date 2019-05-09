@@ -1,8 +1,10 @@
-# Bayesian Models Part 1.2 Liberal Arts Colleges
+# Bayesian Models Part 1.2 LACs
 
-Hint AGAIN: Start simple
+*This section contains our previous models model attempts if you are interested in seeing our journey! Otherwise, you can skip to the "Part 2: Becoming A Proud Bayesian" section.*
 
-**The real question:** why do we repeat the process on liberal arts colleges again?
+
+
+**The real question:** why did we repeat the process on liberal arts colleges?
 
 **Answer:** Liberal arts colleges fall under an entirely separate ranking list and often have different characteristics (e.g. size and location, private vs public). We repeat the process to observe the similarity and differences between universities and liberal arts colleges.
 
@@ -12,7 +14,7 @@ Ranking by one year of SAT score: with intuition from $\text{hist}(\sqrt{1/rgamm
 
 ### First Impression
 
-```{r}
+```{r message=FALSE, warning=FALSE, echo=FALSE}
 ggplot(full_LiberalArts, aes(x = SAT_AVG_1617, y = as.numeric(Y2018))) +
   geom_point() +
   geom_smooth(method = "lm") +
@@ -22,7 +24,7 @@ ggplot(full_LiberalArts, aes(x = SAT_AVG_1617, y = as.numeric(Y2018))) +
   ylab("School Ranking 2018")
 ```
 
-It appears to be a linear relationship!
+Since it appears to be a linear relationship, we gain proceeded with a linear model.
 
 ### Building the model
 
@@ -69,12 +71,12 @@ summary(liberal_sim_0)
 
 For an unknown liberal arts college with a mean student SAT score of 1450 (e.g. Bvictor College), we could predict its ranking from our rjags simulation.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 liberal_chains_0 <- liberal_chains_0 %>%
   mutate(ranking_new = rnorm(10000, mean = beta0 + beta1*1450, sd = (1/tau0)^(1/2)))
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 liberal_chains_0 %>%
   summarize(quantile(ranking_new,0.025),quantile(ranking_new,0.975))
 ```
@@ -99,7 +101,7 @@ As we discussed earlier in Chapter 6, Model 1 is overwhelmingly multicollinear; 
 
 ### First Impression
 
-```{r}
+```{r message=FALSE, warning=FALSE, echo=FALSE}
 ggplot(full_LiberalArts, aes(x = ADM_RATE_1617, y = as.numeric(Y2018), color = SAT_AVG_1617)) +
   geom_point() +
   geom_smooth(method = "lm") +
@@ -116,7 +118,7 @@ There's a strong positive relationship between the admission rate of colleges an
 
 A linear model provides some intuition about how the priors might be constructed.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 summary(lm(full_LiberalArts$Y2018 ~ full_LiberalArts$SAT_AVG_1617 + full_LiberalArts$ADM_RATE_1617))
 ```
 
@@ -168,7 +170,7 @@ liberal_chains_2 <- data.frame(liberal_sim_2[[1]])
 
 ### Model summary
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 summary(liberal_sim_2)
 ```
 
@@ -176,7 +178,7 @@ summary(liberal_sim_2)
 
 For an unknown Liberal Arts College with student mean SAT score of 1450 and an admission rate of $30\%$ (e.g. Dvictor college), we could predict its ranking from our rjags simulation.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 liberal_chains_2 <- liberal_chains_2 %>%
   mutate(beta0_new = rnorm(10000,b0,(1/tau0)^(1/2))) %>%
            mutate(beta1_new = rnorm(10000,b1,(1/tau1)^(1/2))) %>%
@@ -185,7 +187,7 @@ liberal_chains_2 <- liberal_chains_2 %>%
            mutate(ranking_new = rnorm(10000, mean = beta0_new + beta1_new * 1450 + beta2_new * 0.3, sd = (1/tau_big_new)^(1/2)))
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 liberal_chains_2 %>%
   summarize(quantile(ranking_new,0.025),quantile(ranking_new,0.975))
 ```

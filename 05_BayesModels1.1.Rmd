@@ -1,4 +1,6 @@
-# Bayesian Models Part 1.1 University
+# Bayesian Models Part 1.1 Universities
+
+*This section contains our previous models model attempts if you are interested in seeing our journey! Otherwise, you can skip to the "Part 2: Becoming A Proud Bayesian" section.*
 
 How will we simulate what we want to know?
 
@@ -10,7 +12,7 @@ Ranking by one year of SAT score: with intuition from $\text{hist}(\sqrt{1/rgamm
 
 ### First Impression
 
-```{r}
+```{r message=FALSE, warning=FALSE, echo=FALSE}
 
 ggplot(fullUniversity, aes(x = SAT_AVG_1617, y = as.numeric(Y2018))) +
   geom_point() +
@@ -21,7 +23,7 @@ ggplot(fullUniversity, aes(x = SAT_AVG_1617, y = as.numeric(Y2018))) +
   ylab("School Ranking 2018")
 ```
 
-It appears to be a linear relationship!
+It appears to be a linear relationship! So, we proceeded to create a normal prior made of a linear combination of values. 
 
 ### Building the model
 
@@ -60,7 +62,7 @@ university_chains_0 <- data.frame(university_sim_0[[1]])
 
 ### Model summary
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 summary(university_sim_0)
 ```
 
@@ -68,21 +70,19 @@ summary(university_sim_0)
 
 For an unknown university with a mean student SAT score of 1450 (e.g. Bvictor University), we could predict its ranking from our rjags simulation.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 university_chains_0 <- university_chains_0 %>%
   mutate(ranking_new = rnorm(10000, mean = beta0 + beta1*1450, sd = (1/tau0)^(1/2)))
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 university_chains_0 %>%
   summarize(quantile(ranking_new,0.025),quantile(ranking_new,0.975))
 ```
 
-A $95\%$ credible interval is $(-20,62)$. Due to restrictions of this one-predictor model, we expect to see an improvement in later models.
+A $95\%$ credible interval is $(-20,62)$.Unfortunately, we ended up with range that included negative values, which led us to believe that we either needed more predictors, or we needed to change the model type. Due to restrictions of this one-predictor model, we expect to see an improvement in later models. We decided to try adding more predictors first. 
 
 ## Model 1
-
-Ranking by three years of SAT score. By analysis, the three predictors are multicollinear, meaning that this may not be a significantly better model than Model 0.
 
 ### First Impression
 
@@ -90,12 +90,13 @@ It's harder to make predictions (and as it turns out, hard to make visualization
 
 To further test our thinking, we created a linear model *university_linear_1*. From the ANOVA summary, we see that any one of these variables should be sufficient.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 university_linear_1 <- lm(as.numeric(Y2018) ~ SAT_AVG_1617 + SAT_AVG_1516 + SAT_AVG_1415, fullUniversity)
 
 summary(university_linear_1)
 anova(university_linear_1)
 ```
+We decided to model ranking by using the three years of average SAT scores. Through summary analysis and an analysis of variance (ANOVA), the three predictors are multicollinear, meaning that this may not be a significantly better model than Model 0.
 
 **For the sake of scientific experiment (and to catch the audience's interest)**, we still did a Bayesian model and Bayesian posterior inference. We found out that this model does a slightly better job at predicting college rankings (by eliminating negative rankings) because it naturally contains more information as we increase the number of predictors. The change is **not** significant enough to call it an improvement.
 
@@ -139,7 +140,7 @@ university_chains_1 <- data.frame(university_sim_1[[1]])
 
 ### Model summary
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 summary(university_sim_1)
 ```
 
@@ -147,12 +148,12 @@ summary(university_sim_1)
 
 For an unknown university with three years' mean student SAT score of 1450, 1440, 1420 (e.g. Cvictor University), we could predict its ranking from our rjags simulation.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 university_chains_1 <- university_chains_1 %>%
   mutate(ranking_new = rnorm(10000, mean = beta0 + beta1*1450 + beta2*1440 +beta3*1420, sd = (1/tau_big)^(1/2)))
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 university_chains_1 %>%
   summarize(quantile(ranking_new,0.025),quantile(ranking_new,0.975))
 ```
@@ -165,7 +166,7 @@ A $95\%$ credible interval is $(-14,64)$. The $95\%$ credible interval in the ne
 
 ### First Impression
 
-```{r}
+```{r message=FALSE, warning=FALSE, echo=FALSE}
 ggplot(fullUniversity, aes(x = ADM_RATE_1617, y = as.numeric(Y2018), color = SAT_AVG_1617)) +
   geom_point() +
   geom_smooth(method = "lm") +
@@ -182,7 +183,7 @@ There's a strong positive relationship between the admission rate of colleges an
 
 A linear model provides some intuition about how the priors might be constructed.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 summary(lm(fullUniversity$Y2018 ~ fullUniversity$SAT_AVG_1617 + fullUniversity$ADM_RATE_1617))
 ```
 
@@ -242,7 +243,7 @@ summary(university_sim_2)
 
 For an unknown university with student mean SAT score of 1450 and an admission rate of $30\%$ (e.g. Dvictor University), we could predict its ranking from our rjags simulation.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 university_chains_2 <- university_chains_2 %>%
   mutate(beta0_new = rnorm(10000,b0,(1/tau0)^(1/2))) %>%
            mutate(beta1_new = rnorm(10000,b1,(1/tau1)^(1/2))) %>%
@@ -251,7 +252,7 @@ university_chains_2 <- university_chains_2 %>%
            mutate(ranking_new = rnorm(10000, mean = beta0_new + beta1_new * 1450 + beta2_new * 0.3, sd = (1/tau_big_new)^(1/2)))
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 university_chains_2 %>%
   summarize(quantile(ranking_new,0.025),quantile(ranking_new,0.975))
 ```

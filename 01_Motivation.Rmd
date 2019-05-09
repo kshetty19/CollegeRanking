@@ -1,10 +1,14 @@
 # Motivation
 
-## Why this?
+## Why This?
 
-Why have Princeton and Williams topped the US News and World Report ranking charts for so long? What factors are considered when we create college rankings? Though reductionary, college rankings are often what parents and prospective students consider in some way when approaching their college search process. Rankings do not often change a great deal and there are many aspects that play into how a ranking is constructed based on what the compiler deems important. In our report, we aim to investigate how these rankings are constructed and eventually provide a specialized tool for students to tailor a college’s “rank” to their own set of criteria.
-
+  Why have Princeton and Williams topped the US News and World Report ranking charts for so long? What factors are considered when we create college rankings? Though reductionary, college rankings are often what parents and prospective students consider in some way when approaching their college search process. As two students who have worked in admissions, we are excited to dive into this topic.
+  
+  Name recognition can really go a long way. Rankings do not often change a great deal and there are many aspects that play into how a ranking is constructed based on what the compiler deems important. Because of this, when the US News and World Report changed its ranking methodology multiple times in the 90s, "during that period, a school's ranking could move up or down from one year to the next without any accompanying change in objective quality measures." However, literature has also shown "a correlation between rankings and application decisions, but do not distinguish changes in rank from changes in school quality" (Luca & Smith 59).
 
 ## A snapshot
 
-In our project, we aim to look at the factors that play into college rankings and use our findings to create a specialized ranking tool for students. Factors like region, setting, size, admissions rate, diversity, and standardized testing scores play into the score a given school will receive.
+  In our project, we aim to investigate, visualize, and model those factors that play into college rankings. We then plan to use our findings to create a specialized ranking tool for students. Factors like region, setting, size, admissions rate, diversity, and standardized testing scores play into the score a given school will receive.
+  
+  
+

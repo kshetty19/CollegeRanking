@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 10 A Little Shiny | MATH 454 Bayesian Statistics - College Ranking</title>
-  <meta name="description" content="Chapter 10 A Little Shiny | MATH 454 Bayesian Statistics - College Ranking" />
+  <title>Chapter 9 Part 2: Becoming a Proud Bayesian | MATH 454 Bayesian Statistics - College Ranking</title>
+  <meta name="description" content="Chapter 9 Part 2: Becoming a Proud Bayesian | MATH 454 Bayesian Statistics - College Ranking" />
   <meta name="generator" content="bookdown  and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 10 A Little Shiny | MATH 454 Bayesian Statistics - College Ranking" />
+  <meta property="og:title" content="Chapter 9 Part 2: Becoming a Proud Bayesian | MATH 454 Bayesian Statistics - College Ranking" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="kshetty19/CollegeRanking" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 10 A Little Shiny | MATH 454 Bayesian Statistics - College Ranking" />
+  <meta name="twitter:title" content="Chapter 9 Part 2: Becoming a Proud Bayesian | MATH 454 Bayesian Statistics - College Ranking" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="part-2-becoming-a-proud-bayesian.html">
-
+<link rel="prev" href="more-experimentation-with-bayes.html">
+<link rel="next" href="a-little-shiny.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -230,79 +230,221 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="a-little-shiny" class="section level1">
-<h1><span class="header-section-number">Chapter 10</span> A Little Shiny</h1>
-<p><strong>HINT: At some point during your project, everything suddenly goes really complicated.</strong></p>
-<p>Websites like US News &amp; World Report have a set of criteria with which they use to create their lists, but we ask the following: who’s to say that their criteria matches yours?</p>
-<p>To accurately represent the school selection process, we found it more appropriate to create a new concept called <strong>Fitness Index</strong> that measures the level of fitness between a student and their school options.</p>
-<p>(In that way, Zuofu could pretend that there’s such person <strong>Zafo</strong> with a 1580 SAT who wants to go to a big school in the city.)</p>
-<div id="user-input" class="section level2">
-<h2><span class="header-section-number">10.1</span> User Input</h2>
-<p>We created a Shiny App for students interested in finding colleges. After inputing predictive variables, the system will provide a list of liberal arts colleges and universities curated for the student.</p>
-<table>
-<colgroup>
-<col width="24%" />
-<col width="40%" />
-<col width="35%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>User Input in the Shiny App</th>
-<th>Description</th>
-<th>How users input</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Size of school (UGDS)</td>
-<td>number of undergraduate degree-seeking students</td>
-<td>Users can select a range between 0 and 4000 (Liberal Arts Colleges) and 0 and 60000 (Universities)</td>
-</tr>
-<tr class="even">
-<td>SAT Scores (SAT_AVG)</td>
-<td>combined SAT average by year, interchangeable with SAT</td>
-<td>Users can input their own SAT score. Our system will compare it with average SAT scores of each college and calculate students’ compatibility. (ACT score will be automatically transformed.)</td>
-</tr>
-<tr class="odd">
-<td>A college’s region (REGION)</td>
-<td>geographic region (e.g. Minnesota is in the Plains region)</td>
-<td>This is a multi-check box. Users can filter away regions where they don’t want to attend college.</td>
-</tr>
-<tr class="even">
-<td>Setting (LOCALE)</td>
-<td>setting (large city, small town, etc.)</td>
-<td>This is a low weight variable where students can state their setting preference for college. Colleges that fit their description will be considered more <strong>compatible</strong> with students; schools will not be eliminated solely by this factor.</td>
-</tr>
-<tr class="odd">
-<td>Average Cost Per Year (COSTT4_A)</td>
-<td>average cost of attendance per year</td>
-<td>Users can use a slidebar to set their preferred full tuition range (excludes financial aid, scholarships etc.)</td>
-</tr>
-<tr class="even">
-<td>Racial diversity (UGDS_WHITE)</td>
-<td>racial diversity by the percentage of white students</td>
-<td>Users can select a preferred percentage. Schools with an incompatible percentage (&gt;15% net difference) will be punished by the algorithm; schools will only be eliminated solely by this factor if net difference &gt; 35%.</td>
-</tr>
-</tbody>
-</table>
-<p> </p>
+<div id="part-2-becoming-a-proud-bayesian" class="section level1">
+<h1><span class="header-section-number">Chapter 9</span> Part 2: Becoming a Proud Bayesian</h1>
+<p>For our finalized Bayesian model, we intend to build predictive models for universities and liberal arts colleges. Then we’ll compare the similarities and differences of the two models. (i.e. is some factor important for universities and less so for liberal arts colleges?)</p>
+<div id="university-model" class="section level2">
+<h2><span class="header-section-number">9.1</span> University Model</h2>
+<p>After deciding on the variables of interest (size of undergraduate student body, average SAT score, admission rate, and location), we took a step-by-step approach to create the model. In addition to determining the variables we needed, we also realized that we had to change our model type. After repeatedly getting negative values from our Normal model, we decided on a Poisson model. This would ensure positive outputs and we were hopeful that it would fit our data better.</p>
+<div id="get-some-intuition" class="section level3">
+<h3><span class="header-section-number">9.1.1</span> Get some intuition</h3>
+<p>For some intuition, we built some bi-variate visualizations that helped us understand the individual trends between ranking and our quantitative variables:</p>
+<p><img src="CollegeRanking_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p>After looking at the following plots and fitting them with generalized linear models (since Poisson models are on the log-scale), we saw generally linear relationships between rank and SAT score and admission rate. There was a pretty weak linear relationship between ranking and number of undergrads. However, having seen these plots and fit linear models to them, we were able to still move forward with our generalized linear model.</p>
 </div>
-<div id="possible-data-cleaning" class="section level2">
-<h2><span class="header-section-number">10.2</span> Possible Data Cleaning?</h2>
-<p>We found out that more schools than we estimated had NAs in their SAT score section (they do not provide standardized test scores). We subsequently found that NAs exist throughout our dataset.</p>
-<p>Since our final goal is to create an interactive tool for students to evaluate their compatibility with colleges, we decided to <em>leave these NAs alone</em> until the final phase (which is NOW). We re-weighed variables when building our fitness index algorithm. The weight of NA variables will be set to <span class="math inline">\(0\)</span> by an if statement, and other variables will have a higher weight proportionally in correspondence.</p>
+<div id="some-addition-intuition" class="section level3">
+<h3><span class="header-section-number">9.1.2</span> Some addition intuition</h3>
+<p>For more intuition, we start with more vague priors and slightly adjust the priors based on the summary table. It’s important to note that the priors cannot be set too close to the means of the summary table in case of <strong>overfitting</strong>.</p>
 </div>
-<div id="shiny-app" class="section level2">
-<h2><span class="header-section-number">10.3</span> Shiny App</h2>
-<p>Considering the difficulty of embedding a Shiny App in the bookdown, we instead include links of our Shiny App that you could play around. Check out which colleges fit you the most!</p>
-<p>For liberal arts colleges you are interested in:</p>
-<p><a href="https://zuofuhuang.shinyapps.io/collegeranking/" class="uri">https://zuofuhuang.shinyapps.io/collegeranking/</a></p>
-<p>For universities you are interested in:</p>
-<p><a href="https://zuofuhuang.shinyapps.io/UniversityRanking/" class="uri">https://zuofuhuang.shinyapps.io/UniversityRanking/</a></p>
+<div id="building-the-model-5" class="section level3">
+<h3><span class="header-section-number">9.1.3</span> Building the model</h3>
+<pre class="sourceCode r"><code class="sourceCode r">university_model_<span class="dv">3</span> &lt;-<span class="st"> &quot;model{  </span>
+<span class="st">    # Data: observations</span>
+<span class="st">    for(i in 1:length(y)) {</span>
+<span class="st">        y[i] ~ dpois(lambda[i])</span>
+<span class="st">        log(lambda[i]) = beta0 + beta1*x1[i] + beta2[z[i]] + beta3*x3[i] + beta4*x4[i]</span>
+<span class="st">    }</span>
+<span class="st">        # Data: subjects</span>
+<span class="st">        beta0 ~ dnorm(8, 1)</span>
+<span class="st">        beta1 ~ dnorm(0, 10000)</span>
+<span class="st">        beta2[1] &lt;- 0 </span>
+<span class="st">        beta2[2] ~ dnorm(0, 0.01)</span>
+<span class="st">        beta2[3] ~ dnorm(0, 0.01)</span>
+<span class="st">        beta3 ~ dnorm(0, 10)</span>
+<span class="st">        beta4 ~ dnorm(0, 0.01)</span>
+
+<span class="st">}&quot;</span>
+
+<span class="co"># COMPILE</span>
+
+y &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(fullUniversity<span class="op">$</span>Y2018)
+
+model_data9 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(y, <span class="dt">x1 =</span> fullUniversity<span class="op">$</span>UGDS_<span class="dv">1617</span>, <span class="dt">z =</span> <span class="kw">as.numeric</span>(fullUniversity<span class="op">$</span>LOCALE_collapse), <span class="dt">x3 =</span> fullUniversity<span class="op">$</span>SAT_AVG_<span class="dv">1617</span>, <span class="dt">x4 =</span> fullUniversity<span class="op">$</span>ADM_RATE_<span class="dv">1617</span>)
+
+model_data9 &lt;-<span class="st"> </span><span class="kw">na.omit</span>(model_data9)
+
+university_jags_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">jags.model</span>(<span class="kw">textConnection</span>(university_model_<span class="dv">3</span>), 
+    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> model_data9<span class="op">$</span>y, <span class="dt">x1 =</span> model_data9<span class="op">$</span>x1, <span class="dt">z =</span> <span class="kw">factor</span>(model_data9<span class="op">$</span>z), <span class="dt">x3 =</span> model_data9<span class="op">$</span>x3, <span class="dt">x4 =</span> model_data9<span class="op">$</span>x4),
+    <span class="dt">inits=</span><span class="kw">list</span>(<span class="dt">.RNG.name =</span> <span class="st">&quot;base::Wichmann-Hill&quot;</span>, <span class="dt">.RNG.seed =</span> <span class="dv">454</span>))</code></pre>
+<pre><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 114
+##    Unobserved stochastic nodes: 6
+##    Total graph size: 1137
+## 
+## Initializing model</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># SIMULATE the model</span>
+university_sim_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">coda.samples</span>(university_jags_<span class="dv">3</span>,
+    <span class="dt">variable.names =</span> <span class="kw">c</span>(<span class="st">&quot;beta0&quot;</span>,<span class="st">&quot;beta1&quot;</span>,<span class="st">&quot;beta2&quot;</span>,<span class="st">&quot;beta3&quot;</span>,<span class="st">&quot;beta4&quot;</span>),
+    <span class="dt">n.iter =</span> <span class="dv">10000</span>)
+
+<span class="co"># STORE the chains in a data frame</span>
+university_chains_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">data.frame</span>(university_sim_<span class="dv">3</span>[[<span class="dv">1</span>]])</code></pre>
 </div>
-<div id="in-case-youre-curious" class="section level2">
-<h2><span class="header-section-number">10.4</span> In case you’re curious…</h2>
-<p>If you are curious about the code (which is somewhat complicated), here it is! Email Zuofu (<a href="mailto:zhuang@macalester.edu" class="email">zhuang@macalester.edu</a>) for more details.</p>
+<div id="model-summary-5" class="section level3">
+<h3><span class="header-section-number">9.1.4</span> Model summary</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(university_sim_<span class="dv">3</span>)</code></pre>
+<pre><code>## 
+## Iterations = 1001:11000
+## Thinning interval = 1 
+## Number of chains = 1 
+## Sample size per chain = 10000 
+## 
+## 1. Empirical mean and standard deviation for each variable,
+##    plus standard error of the mean:
+## 
+##                Mean        SD  Naive SE Time-series SE
+## beta0     6.693e+00 3.148e-01 3.148e-03      1.064e-01
+## beta1    -4.418e-06 1.154e-06 1.154e-08      3.881e-08
+## beta2[1]  0.000e+00 0.000e+00 0.000e+00      0.000e+00
+## beta2[2]  1.529e-02 3.080e-02 3.080e-04      6.158e-04
+## beta2[3]  1.464e-01 5.940e-02 5.940e-04      1.345e-03
+## beta3    -2.539e-03 2.136e-04 2.136e-06      6.886e-05
+## beta4     1.374e+00 1.055e-01 1.055e-03      1.990e-02
+## 
+## 2. Quantiles for each variable:
+## 
+##                2.5%        25%        50%        75%      97.5%
+## beta0     6.1899756  6.474e+00  6.6367448  6.853e+00  7.416e+00
+## beta1    -0.0000067 -5.213e-06 -0.0000044 -3.621e-06 -2.184e-06
+## beta2[1]  0.0000000  0.000e+00  0.0000000  0.000e+00  0.000e+00
+## beta2[2] -0.0454972 -5.617e-03  0.0151296  3.629e-02  7.586e-02
+## beta2[3]  0.0265393  1.076e-01  0.1474028  1.870e-01  2.622e-01
+## beta3    -0.0030334 -2.650e-03 -0.0025023 -2.393e-03 -2.194e-03
+## beta4     1.1282817  1.311e+00  1.3846333  1.447e+00  1.551e+00</code></pre>
+</div>
+<div id="posterior-inference-5" class="section level3">
+<h3><span class="header-section-number">9.1.5</span> Posterior inference</h3>
+<p>For an unknown university located in the city (beta2 = 0, since city is the reference level) with 10000 undergraduates, student mean SAT score of 1400 and an admission rate of <span class="math inline">\(25\%\)</span> (e.g. Gvictor University), we could predict its ranking from our rjags simulation.</p>
+<pre class="sourceCode r"><code class="sourceCode r">university_chains_<span class="dv">3</span> &lt;-<span class="st"> </span>university_chains_<span class="dv">3</span> <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">ranking_new =</span> <span class="kw">rpois</span>(<span class="dv">10000</span>, <span class="dt">lambda =</span> <span class="kw">exp</span>(beta0 <span class="op">+</span><span class="st"> </span>beta1 <span class="op">*</span><span class="st"> </span><span class="dv">10000</span> <span class="op">+</span><span class="st"> </span>beta3 <span class="op">*</span><span class="st"> </span><span class="dv">1400</span> <span class="op">+</span><span class="st"> </span>beta4 <span class="op">*</span><span class="st"> </span><span class="fl">0.25</span>)))
+
+university_chains_<span class="dv">3</span> <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="kw">quantile</span>(ranking_new,<span class="fl">0.025</span>),<span class="kw">quantile</span>(ranking_new,<span class="fl">0.975</span>))</code></pre>
+<pre><code>##   quantile(ranking_new, 0.025) quantile(ranking_new, 0.975)
+## 1                           21                           43</code></pre>
+<p>The interval is more reflective of the intuitive estimate of Gvictor University’s ranking. We get a reasonable range of values (1, 120), and we would predict that a school with a moderately selective admissions rate (25%) and an SAT score average of 1400, would fall into a “Tier 2” range (approximately between 25 and 50).</p>
+</div>
+</div>
+<div id="liberal-arts-colleges" class="section level2">
+<h2><span class="header-section-number">9.2</span> Liberal Arts Colleges</h2>
+<div id="get-some-intuition-1" class="section level3">
+<h3><span class="header-section-number">9.2.1</span> Get some intuition</h3>
+<p>For some intuition, we again built some bi-variate visualizations that helped us understand the individual trends between ranking and our quantitative variables:</p>
+<p><img src="CollegeRanking_files/figure-html/unnamed-chunk-64-1.png" width="672" />
+After looking at the following plots and fitting them with generalized linear models, we saw the strongest linear relationship between average SAT score and ranking. There was also a fairly strong linear relationship between admission rate and ranking. The relationship between ranking and number of undergrads remain quite weak for liberal arts colleges, but still existent. So, having seen these plots and fit linear models to them, we were confident in moving forward.</p>
+</div>
+<div id="building-the-model-6" class="section level3">
+<h3><span class="header-section-number">9.2.2</span> Building the model</h3>
+<pre class="sourceCode r"><code class="sourceCode r">liberal_model_<span class="dv">3</span> &lt;-<span class="st"> &quot;model{  </span>
+<span class="st">    # Data: observations</span>
+<span class="st">    for(i in 1:length(y)) {</span>
+<span class="st">        y[i] ~ dpois(lambda[i])</span>
+<span class="st">        log(lambda[i]) = beta0 + beta1*x1[i] + beta2[z[i]] + beta3*x3[i] + beta4*x4[i]</span>
+<span class="st">    }</span>
+<span class="st">    # Data: subjects</span>
+<span class="st">    beta0 ~ dnorm(0, 0.0001)</span>
+<span class="st">    beta1 ~ dnorm(0, 10000)</span>
+<span class="st">    beta2[1] &lt;- 0 </span>
+<span class="st">    beta2[2] ~ dnorm(0, 0.04)</span>
+<span class="st">    beta2[3] ~ dnorm(-10, 0.04)</span>
+<span class="st">    beta2[4] ~ dnorm(-15, 0.01)</span>
+<span class="st">    beta3 ~ dnorm(-0.3, 100)</span>
+<span class="st">    beta4 ~ dnorm(36, 10)</span>
+
+<span class="st">}&quot;</span>
+
+<span class="co"># COMPILE</span>
+
+y &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(full_LiberalArts<span class="op">$</span>Y2018)</code></pre>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">model_data8 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(y, <span class="dt">x1 =</span> <span class="kw">as.numeric</span>(full_LiberalArts<span class="op">$</span>UGDS_<span class="dv">1617</span>), <span class="dt">z =</span> <span class="kw">as.numeric</span>(full_LiberalArts<span class="op">$</span>LOCALE_collapse_lac1), <span class="dt">x3 =</span> <span class="kw">as.numeric</span>(full_LiberalArts<span class="op">$</span>SAT_AVG_<span class="dv">1617</span>), <span class="dt">x4 =</span> <span class="kw">as.numeric</span>(full_LiberalArts<span class="op">$</span>ADM_RATE_<span class="dv">1617</span>))
+
+model_data8 &lt;-<span class="st"> </span><span class="kw">na.omit</span>(model_data8)
+
+liberal_jags_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">jags.model</span>(<span class="kw">textConnection</span>(liberal_model_<span class="dv">3</span>), 
+    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> model_data8<span class="op">$</span>y, <span class="dt">x1 =</span> model_data8<span class="op">$</span>x1, <span class="dt">z =</span> <span class="kw">factor</span>(model_data8<span class="op">$</span>z), <span class="dt">x3 =</span> model_data8<span class="op">$</span>x3, <span class="dt">x4 =</span> model_data8<span class="op">$</span>x4),
+    <span class="dt">inits=</span><span class="kw">list</span>(<span class="dt">.RNG.name =</span> <span class="st">&quot;base::Wichmann-Hill&quot;</span>, <span class="dt">.RNG.seed =</span> <span class="dv">454</span>))</code></pre>
+<pre><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 101
+##    Unobserved stochastic nodes: 7
+##    Total graph size: 1014
+## 
+## Initializing model</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># SIMULATE the model</span>
+liberal_sim_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">coda.samples</span>(liberal_jags_<span class="dv">3</span>,
+    <span class="dt">variable.names =</span> <span class="kw">c</span>(<span class="st">&quot;beta0&quot;</span>,<span class="st">&quot;beta1&quot;</span>,<span class="st">&quot;beta2&quot;</span>,<span class="st">&quot;beta3&quot;</span>,<span class="st">&quot;beta4&quot;</span>),
+    <span class="dt">n.iter =</span> <span class="dv">10000</span>)
+
+<span class="co"># STORE the chains in a data frame</span>
+liberal_chains_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">data.frame</span>(liberal_sim_<span class="dv">3</span>[[<span class="dv">1</span>]])</code></pre>
+</div>
+<div id="model-summary-6" class="section level3">
+<h3><span class="header-section-number">9.2.3</span> Model summary</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(liberal_sim_<span class="dv">3</span>)</code></pre>
+<pre><code>## 
+## Iterations = 1001:11000
+## Thinning interval = 1 
+## Number of chains = 1 
+## Sample size per chain = 10000 
+## 
+## 1. Empirical mean and standard deviation for each variable,
+##    plus standard error of the mean:
+## 
+##                Mean        SD  Naive SE Time-series SE
+## beta0     5.7575868 3.6590045 3.659e-02      9.521e-01
+## beta1    -0.0001047 0.0001043 1.043e-06      2.494e-05
+## beta2[1]  0.0000000 0.0000000 0.000e+00      0.000e+00
+## beta2[2] -0.1862067 0.1544641 1.545e-03      3.231e-02
+## beta2[3] -0.1221312 0.0503896 5.039e-04      6.979e-03
+## beta2[4] -0.5671952 0.2174377 2.174e-03      4.696e-02
+## beta3    -0.0024861 0.0028859 2.886e-05      7.252e-04
+## beta4     2.9260686 1.0288947 1.029e-02      2.916e-01
+## 
+## 2. Quantiles for each variable:
+## 
+##                2.5%        25%        50%        75%      97.5%
+## beta0     4.5244176  4.7629993  4.8721236  5.0651715 18.1141821
+## beta1    -0.0001654 -0.0001408 -0.0001265 -0.0001113  0.0002968
+## beta2[1]  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000
+## beta2[2] -0.2737200 -0.2348096 -0.2141429 -0.1912261  0.2485554
+## beta2[3] -0.1984605 -0.1453506 -0.1246138 -0.1044559 -0.0508085
+## beta2[4] -0.7104135 -0.6439770 -0.6077693 -0.5682324  0.1487860
+## beta3    -0.0119698 -0.0019412 -0.0018121 -0.0017256 -0.0015404
+## beta4    -0.9364295  3.1050759  3.1747504  3.2368810  3.3537106</code></pre>
+</div>
+<div id="posterior-inference-6" class="section level3">
+<h3><span class="header-section-number">9.2.4</span> Posterior inference</h3>
+<p>For an unknown liberal arts college in a city setting (beta2 = 0, since city is the reference level) with 2000 undergraduates, student mean SAT score of 1400 and an admission rate of <span class="math inline">\(25\%\)</span> (e.g. Hvictor College), we could predict its ranking from our rjags simulation.</p>
+<pre class="sourceCode r"><code class="sourceCode r">liberal_chains_<span class="dv">3</span> &lt;-<span class="st"> </span>liberal_chains_<span class="dv">3</span> <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">ranking_new =</span> <span class="kw">rpois</span>(<span class="dv">10000</span>, <span class="kw">exp</span>(beta0 <span class="op">+</span><span class="st"> </span>beta1 <span class="op">*</span><span class="st"> </span><span class="dv">2000</span> <span class="op">+</span><span class="st"> </span>beta3 <span class="op">*</span><span class="st"> </span><span class="dv">1400</span> <span class="op">+</span><span class="st"> </span>beta4 <span class="op">*</span><span class="st"> </span><span class="fl">0.25</span>)))
+
+liberal_chains_<span class="dv">3</span> <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="kw">quantile</span>(ranking_new,<span class="fl">0.025</span>),<span class="kw">quantile</span>(ranking_new,<span class="fl">0.975</span>))</code></pre>
+<pre><code>##   quantile(ranking_new, 0.025) quantile(ranking_new, 0.975)
+## 1                            5                           27</code></pre>
+<p>This is <strong>totally reasonable</strong>. As mentioned earlier, liberal arts colleges tend to take a more holistic approach to their admissions processes and often have a smaller pool of applicants that is pretty self-seleting. As such, they tend to put less weight on standardized testing. As such, we can expect that such a school might have a pretty broad range of rankings it could receive. The interval reflects the intuitive estimate of Hvictor College’s ranking.</p>
+</div>
+</div>
+<div id="comparison-discussion" class="section level2">
+<h2><span class="header-section-number">9.3</span> Comparison &amp; Discussion</h2>
+<p>Compared to the last attempts, our final model gives reasonable predictions, which is a lot of progress! However, the 95% credible interval doesn’t provide as accurate an interval as desired.</p>
+<p>By creating different imaginary schools, we are able to summarize the most important factors for universities and colleges respectively. We find that universities value SAT score as a more decisive indicator of both students’ admission and their own ranking. We also supported our intuition that liberal arts college tend distribute their weight among many factors when determining admission.</p>
 
 </div>
 </div>
@@ -311,8 +453,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="part-2-becoming-a-proud-bayesian.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="more-experimentation-with-bayes.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="a-little-shiny.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -1,10 +1,12 @@
 # Data cleaning
 
+This tab takes you on a tour of the data-cleaning process. It is extensive and will help guide you, should you want to undertake a college ranking project.
+
 ## What **did** we do?
 
 If you don't want to look at all the lengthy work, Kavya and Zuofu are excited to talk through the process with you!
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(readxl)
 library(dplyr)
 library(ggplot2)
@@ -13,49 +15,50 @@ library(forcats)
 library(gridExtra)
 ```
 
-### Load data, select and rename columns
+### Load data, select and rename columns to distinguish by year, omit NA values
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 myData1617 <- read.csv(file = "/Users/kavyashetty/Desktop/Bayesian Stats/MERGED2016_17_PP.csv")
 
 myData1617_sub <- myData1617 %>%
   select(INSTNM,REGION,LOCALE,UGDS,ADM_RATE,ACTCMMID,SAT_AVG,UGDS_WHITE,COSTT4_A)
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 names(myData1617_sub) <- c("INSTNM", "REGION","LOCALE","UGDS_1617","ADM_RATE_1617","ACTCMMID_1617","SAT_AVG_1617","UGDS_WHITE_1617","COSTT4_A_1617")
 ```
 
-```{r}
+
+```{r message=FALSE, warning=FALSE}
 myData1516 <- read.csv(file = "/Users/kavyashetty/Desktop/Bayesian Stats/MERGED2015_16_PP.csv")
 
 myData1516_sub <- myData1516 %>%
   select(INSTNM,UGDS,ADM_RATE,ACTCMMID,SAT_AVG,UGDS_WHITE,COSTT4_A)
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 names(myData1516_sub) <- c("INSTNM","UGDS_1516","ADM_RATE_1516","ACTCMMID_1516","SAT_AVG_1516","UGDS_WHITE_1516","COSTT4_A_1516")
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 myData1415 <- read.csv(file = "/Users/kavyashetty/Desktop/Bayesian Stats/MERGED2014_15_PP.csv")
 
 myData1415_sub <- myData1415 %>%
   select(INSTNM,UGDS,ADM_RATE,ACTCMMID,SAT_AVG,UGDS_WHITE,COSTT4_A)
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 names(myData1415_sub) <- c("INSTNM","UGDS_1415","ADM_RATE_1415","ACTCMMID_1415","SAT_AVG_1415","UGDS_WHITE_1415","COSTT4_A_1415")
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 USNewsUniversity <- read_excel("/Users/kavyashetty/Desktop/Bayesian Stats/USNewsUniversity.xlsx")
 newUniversity <- USNewsUniversity %>%
  select(c(UniversityName, State, Y2019, Y2018, Y2017, Y2016, Y2015, Y2014, Y2013, Y2012)) %>%
   na.omit()
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 USNewsLiberalArts <- read_excel("/Users/kavyashetty/Desktop/Bayesian Stats/USNewsLiberalArts.xlsx")
 newLiberalArts <- USNewsLiberalArts %>%
  select(c(CollegeName, State, Y2019, Y2018, Y2017, Y2016, Y2015, Y2014, Y2013, Y2012)) %>%
@@ -64,7 +67,7 @@ newLiberalArts <- USNewsLiberalArts %>%
 
 ### Filter schools that have a rank
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 college <- rep(NA,149)
 for (i in 1:149){
   college[i] = newLiberalArts[i,]$CollegeName
@@ -100,8 +103,8 @@ class(myData1617_sub$COSTT4_A_1617)
 class(myData1415_sub$INSTNM)
 ```
 
-
-```{r}
+### Check and set each variable classification
+```{r message=FALSE, warning=FALSE}
 myData1415_sub_characterCollege <- myData1415_sub %>%
   filter(INSTNM %in% college) %>%
   mutate(INSTNM = as.character(INSTNM)) %>%
@@ -141,7 +144,7 @@ dim(myData1617_sub_characterCollege)
 
 ### Join datasets
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 fullLiberalArts <- newLiberalArts %>%
   full_join(myData1415_sub_characterCollege, by = c("CollegeName" = "INSTNM")) %>%
   full_join(myData1516_sub_characterCollege, by = c("CollegeName" = "INSTNM")) %>%
@@ -153,7 +156,7 @@ full_LiberalArts <- fullLiberalArts[!duplicated(fullLiberalArts$CollegeName), ]
 dim(full_LiberalArts) # After we removed the repetitive entries.
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 myData1415_sub_characterUniversity <- myData1415_sub %>%
   filter(INSTNM %in% university) %>%
   mutate(INSTNM = as.character(INSTNM)) %>%
@@ -183,13 +186,12 @@ myData1617_sub_characterUniversity <- myData1617_sub %>%
   mutate(COSTT4_A_1617 = as.numeric(as.character(COSTT4_A_1617)))
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 fullUniversity <- newUniversity %>%
   full_join(myData1415_sub_characterUniversity, by = c("UniversityName" = "INSTNM")) %>%
   full_join(myData1516_sub_characterUniversity, by = c("UniversityName" = "INSTNM")) %>%
   full_join(myData1617_sub_characterUniversity, by = c("UniversityName" = "INSTNM"))
 
 dim(fullUniversity)
-fullUniversity
-full_LiberalArts
+
 ```
