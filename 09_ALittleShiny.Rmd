@@ -1,11 +1,6 @@
 # A Little Shiny
 
-
-**HINT: At some point during your project, everything suddenly goes really complicated.**
-
-Websites like US News & World Report have a set of criteria with which they use to create their lists, but we ask the following: who's to say that their criteria matches yours?  
-
-To accurately represent the school selection process, we found it more appropriate to create a new concept called **Fitness Index** that measures the level of fitness between a student and their school options.
+Websites like US News & World Report have a set of criteria with which they use to create their lists, but we ask the following: who's to say that their criteria matches yours? To accurately represent the school selection process, we found it more appropriate to create a new concept called **Fitness Index** that measures the level of fitness between a student and their school options.
 
 (In that way, Zuofu could pretend that there's such person **Zafo** with a 1580 SAT who wants to go to a big school in the city.)
 
@@ -35,6 +30,8 @@ Since our final goal is to create an interactive tool for students to evaluate t
 ## Shiny App
 
 Considering the difficulty of embedding a Shiny App in the bookdown, we instead include links of our Shiny App that you could play around. Check out which colleges fit you the most!
+
+Before you head over to try out the Shiny App for yourself, what is the purpose of this tool? After taking in your inputs in each of the sections above, the model will create a *fitness index* for you. Some of your inputs help select schools that you are compatible with by filtering (e.g. size, region, cost). Other inputs alter the weight of a given variable based on how compatible you are with the options (e.g. SAT/ACT score, diversity, setting). Then, we output a list of schools that work with your parameters. These schools are accompanied with a value, which can be interpreted as follows: the larger the number, the closer the fit.
 
 For liberal arts colleges you are interested in:
 
