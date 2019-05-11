@@ -23,7 +23,7 @@ We would love to continue to add complexity to the Shiny App we created, take in
 
 It would be interesting to do a sentiment analysis and take a look at how school descriptions and admissions outreach affect ranking and student choice. Application data would also be a fascinating element to look at. 
 
-**Citations**
+## Citations
 
 Dill, David D, and Maarja Soo. “Academic Quality, League Tables, and Public Policy: A Cross-National Analysis of University Ranking Systems.” Higher Education, vol. 49, no. 4, 2005, pp. 495–533.
 

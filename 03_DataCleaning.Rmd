@@ -17,6 +17,7 @@ library(gridExtra)
 
 ### Load data, select and rename columns to distinguish by year, omit NA values
 
+**If you want to reproduce our work, make sure to change your file path :)**
 ```{r message=FALSE, warning=FALSE}
 myData1617 <- read.csv(file = "/Users/kavyashetty/Desktop/Bayesian Stats/MERGED2016_17_PP.csv")
 

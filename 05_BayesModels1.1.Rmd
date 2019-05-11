@@ -1,6 +1,6 @@
 # Bayesian Models Part 1.1 Universities
 
-*This section contains our previous models model attempts if you are interested in seeing our journey! Otherwise, you can skip to the " More Experimentation with Bayes" section.*
+*This section contains our previous models model attempts if you are interested in seeing our journey! Otherwise, you can skip to the "Part 2: More Experimentation" section.*
 
 How will we simulate what we want to know?
 

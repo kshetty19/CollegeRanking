@@ -1,4 +1,4 @@
-# More Experimentation with Bayes
+# Part 2: More Experimentation
 
 ## On the way to Final Model
 
