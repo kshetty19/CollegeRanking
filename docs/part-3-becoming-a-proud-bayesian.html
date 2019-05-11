@@ -360,7 +360,7 @@ university_chains_<span class="dv">3</span> &lt;-<span class="st"> </span><span 
 university_chains_<span class="dv">3</span> <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarize</span>(<span class="kw">quantile</span>(ranking_new,<span class="fl">0.025</span>),<span class="kw">quantile</span>(ranking_new,<span class="fl">0.975</span>))</code></pre>
 <pre><code>##   quantile(ranking_new, 0.025) quantile(ranking_new, 0.975)
-## 1                           21                           42</code></pre>
+## 1                           21                           43</code></pre>
 <p>The interval is more reflective of the intuitive estimate of Gvictor University’s ranking. We get a reasonable range of values (1, 120), and we would predict that a school with a moderately selective admissions rate (25%) and an SAT score average of 1400, would fall into a “Tier 2” range (approximately between 25 and 50).</p>
 </div>
 </div>
@@ -486,7 +486,7 @@ liberal_chains_<span class="dv">3</span> &lt;-<span class="st"> </span><span cla
 liberal_chains_<span class="dv">3</span> <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarize</span>(<span class="kw">quantile</span>(ranking_new,<span class="fl">0.025</span>),<span class="kw">quantile</span>(ranking_new,<span class="fl">0.975</span>))</code></pre>
 <pre><code>##   quantile(ranking_new, 0.025) quantile(ranking_new, 0.975)
-## 1                            5                           27</code></pre>
+## 1                            5                           26</code></pre>
 <p>This is <strong>totally reasonable</strong>. As mentioned earlier, liberal arts colleges tend to take a more holistic approach to their admissions processes and often have a smaller pool of applicants that is pretty self-selecting. Liberal arts colleges generally put less weight on standardized testing. As such, we can expect that such a school might have a pretty broad range of rankings it could receive. The interval reflects the intuitive estimate of Hvictor College’s ranking.</p>
 </div>
 </div>

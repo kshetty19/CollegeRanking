@@ -158,7 +158,7 @@ full_LiberalArts$UGDS_WHITE_1617_categ = cut(full_LiberalArts$UGDS_WHITE_1617, c
 ggplot(full_LiberalArts, aes(x = UGDS_1617, y = UGDS_WHITE_1617, color = COSTT4_A_1617)) +
   geom_point() +
   xlab("Size of Undergraduate Student Body") + ylab("Percentage of White Students") +
-  ggtitle("Economic and Racial Diversity of Liberal Arts Colleges") + labs("Cost for Year 2017")
+  ggtitle("Economic and Racial Diversity of Liberal Arts Colleges") + labs(color = "Cost for Year 2017")
 ```
 
 In terms of liberal arts colleges, we can see that the data points (schools) are more clustered at the top section of the plot. This makes sense to us given that most liberal arts colleges are private compared to universities. We didn't see an observable relationship between cost and the percentage of white students.
