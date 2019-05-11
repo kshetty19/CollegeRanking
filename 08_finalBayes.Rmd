@@ -16,7 +16,8 @@ gg1 <- ggplot(fullUniversity, aes(x = UGDS_1617, y = as.numeric(Y2018))) +
   geom_point() +
   geom_smooth(method = "glm") +
   xlab("Number of Undergraduate Students in 2016-17") +
-  ylab("School Ranking 2018") + ggtitle("Universities") + ylim(1,120)
+  ylab("School Ranking 2018") + ggtitle("Universities") + ylim(1,120) + theme(
+  axis.title.x = element_text(size = 8))
 
 gg2 <- ggplot(fullUniversity, aes(x = SAT_AVG_1617, y = as.numeric(Y2018))) +
   geom_point() +
@@ -40,14 +41,19 @@ For more intuition, we start with more vague priors and slightly adjust the prio
 ### Building the model
 
 Our final university model predicts
+
 $$Y_i = \text{the predicted 2018 ranking of a university}$$
+
 by
+
 $$\begin{align} X_{1,i} & = \text{the number of undergraduate students in university
 i} \\
 Z_i & = \text{location of university i (City, Suburb, Town)} \\
 X_{3,i} & = \text{student mean SAT score of Year 2016-17} \\
 X_{3,i} & = \text{admissions rate during Year 2016-17} \end{align}$$
+
 Specifically:
+
 $$\begin{align} Y_i & \sim Pois(\lambda_i) \\
 log(\lambda_i) & = \beta_0 + \beta_1X_{1,i} + \beta_{2,1}Z_{1,i} + \beta_{2,2}Z_{2,i}
 + \beta_{2,3}Z_{3,i} + \beta_3X_{3,i} + \beta_4X_{4,i} \\
@@ -59,6 +65,7 @@ log(\lambda_i) & = \beta_0 + \beta_1X_{1,i} + \beta_{2,1}Z_{1,i} + \beta_{2,2}Z_
 \beta_{2,3} & \sim N(0,100^{-1}) \\
 \beta_{3} & \sim N(0,0.1^{-1}) \\
 \beta_{4} & \sim N(0,100^{-1}) \end{align}$$
+
 where $Z_{1,i}$ indicates if a liberal arts college is in the city (reference level);
 $Z_{2,i}$ indicates if a college is in the suburb setting; $Z_{3,i}$ indicates if a
 college is in the town setting.
@@ -136,7 +143,8 @@ gg4 <- ggplot(full_LiberalArts, aes(x = UGDS_1617, y = as.numeric(Y2018))) +
   geom_point() +
   geom_smooth(method = "glm") +
   xlab("Number of Undergraduate Students in 2016-17") +
-  ylab("School Ranking 2018") + ggtitle("Liberal Arts Colleges") + ylim(1,150)
+  ylab("School Ranking 2018") + ggtitle("Liberal Arts Colleges") + ylim(1,150) + theme(
+  axis.title.x = element_text(size = 8))
 
 gg5 <- ggplot(full_LiberalArts, aes(x = SAT_AVG_1617, y = as.numeric(Y2018))) +
   geom_point() +
@@ -151,15 +159,18 @@ gg6 <- ggplot(full_LiberalArts, aes(x = ADM_RATE_1617, y = as.numeric(Y2018))) +
 grid.arrange(gg4, gg5, gg6, nrow = 2)
 ```
 
-After looking at the following plots and fitting them with generalized linear models, we saw the strongest linear relationship between average SAT score and ranking. There was also a fairly strong linear relationship between admission rate and ranking. The relationship between ranking and number of undergrads remain quite weak for liberal arts colleges, but still existent. So, having seen these plots and fit linear models to them, we were confident in moving forward.
+After looking at the following plots and fitting them with generalized linear models, we saw the strongest linear relationship between average SAT score and ranking. There was also a fairly strong linear relationship between admission rate and ranking. The relationship between ranking and number of undergrads remains quite weak for liberal arts colleges, but is still existent. So, having seen these plots and fit linear models to them, we were confident in moving forward.
 
 
 
 ### Building the model
 
 Our final liberal arts college model predicts
+
 $$Y_i = \text{the predicted 2018 ranking of a liberal arts college}$$
+
 by
+
 $$\begin{align} X_{1,i} & = \text{the number of undergraduate students in liberal
 arts college i} \\
 Z_i & = \text{location of liberal arts college i (City, Rural, Suburb, Town)} \\
@@ -177,6 +188,7 @@ log(\lambda_i) & = \beta_0 + \beta_1X_{1,i} + \beta_{2,1}Z_{1,i} + \beta_{2,2}Z_
 \beta_{2,4} & \sim N(-15,100^{-1}) \\
 \beta_{3} & \sim N(-0.3,0.01^{-1}) \\
 \beta_{4} & \sim N(36,0.1^{-1}) \end{align}$$
+
 where $Z_{1,i}$ indicates if a liberal arts college is in the city (reference level);
 $Z_{2,i}$ indicates if a college is in the rural setting; $Z_{3,i}$ indicates if a college
 is in the suburb setting; $Z_{4,i}$ indicates if a college is in the town setting.
@@ -240,7 +252,7 @@ liberal_chains_3 %>%
   summarize(quantile(ranking_new,0.025),quantile(ranking_new,0.975))
 ```
 
-This is **totally reasonable**. As mentioned earlier, liberal arts colleges tend to take a more holistic approach to their admissions processes and often have a smaller pool of applicants that is pretty self-seleting. As such, they tend to put less weight on standardized testing. As such, we can expect that such a school might have a pretty broad range of rankings it could receive. The interval reflects the intuitive estimate of Hvictor College's ranking.
+This is **totally reasonable**. As mentioned earlier, liberal arts colleges tend to take a more holistic approach to their admissions processes and often have a smaller pool of applicants that is pretty self-selecting. Liberal arts colleges generally put less weight on standardized testing. As such, we can expect that such a school might have a pretty broad range of rankings it could receive. The interval reflects the intuitive estimate of Hvictor College's ranking.
 
 ## Comparison & Discussion
 
